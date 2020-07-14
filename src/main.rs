@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use structopt::StructOpt;
-use pastebin_rs::{ PastebinBuilder, VisibilityLevel };
+use pastebin_rs::{ PastebinBuilder, VisibilityLevel, ExpirationDate };
 
 #[derive(StructOpt, Debug)]
 #[structopt(name = "pastup")]
@@ -21,7 +21,7 @@ struct PastupCli {
 
     /// Sets the lifetime of the paste
     #[structopt(short = "l", long = "lifetime")]
-    lifetime: Option<String>,
+    lifetime: String,
 
     /// Sets the paste's name
     #[structopt(short = "t", long = "title")]
@@ -30,31 +30,32 @@ struct PastupCli {
 
 fn main() {
     let opt: PastupCli = PastupCli::from_args();
-    let api_key = format!(env!("PASTEBIN_API_KEY");
-    
+    let api_key = format!(env!("PASTEBIN_API_KEY"));
+
     let visibility = match opt.visibility {
-        Some(v) => parse_visibility_string(v),
+        Some(v) => VisibilityLevel::from(v),
         None => None,
     };
-
+    
+    let date = ExpirationDate::from(opt.lifetime);
 
     if let Ok(text) = std::fs::read_to_string(&opt.path) {
-        // let builder = PastebinBuilder::new(
-        //     api_key,
-        //     text,
-        //     opt.name,
+        let builder = PastebinBuilder::new(
+            api_key,
+            text,
+            opt.name,
+            visibility,
+            opt.format,
+            date
+        );
 
-
-        // )
+        match builder.execute() {
+            Ok(url) => println!("Here is your paste: {}", url),
+            Err(e) => eprintln!("Error while sending your paste: {:?}", e),
+        }
     }
     
     else {
         eprintln!("Error: the file {:?} doesn\'t contain valid UTF-8.", &opt.path);
-    }
-}
-
-fn parse_visibility_string(to_parse: String) -> Option<VisibilityLevel> {
-    match to_parse {
-
     }
 }
