@@ -3,7 +3,7 @@ A small CLI to upload some files to Pastebin
 
 ## Installation
 ``` 
-git clone https://github.com/ElFamosoKilluaah/pastup
+git clone https://github.com/ElFamosoKilluaah/pastup.git
 cd pastup
 cargo install --path ./
 ```
