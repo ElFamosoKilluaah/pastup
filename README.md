@@ -9,7 +9,7 @@ cargo install --path ./
 ```
 
 ## Use
-First, you need to get an API key to Pastebin, wich can be obtained by creating an account, then [here]https://pastebin.com/api)
+First, you need to get an API key to Pastebin, wich can be obtained by creating an account, then [here](https://pastebin.com/api)
 
 After this, create an environment variable with ``PASTEBIN_API_KEY`` as name, and the key obtained before as value.
 
